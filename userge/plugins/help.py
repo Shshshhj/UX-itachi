@@ -58,27 +58,11 @@ _CATEGORY = {
 # Database
 SAVED_SETTINGS = get_collection("CONFIGS")
 REPO_X = InlineQueryResultArticle(
-    title="Repo",
-    input_message_content=InputTextMessageContent("**Here's how to setup USERGE-X** "),
-    url="https://github.com/code-rgb/USERGE-X",
-    description="Setup Your Own",
-    thumb_url="https://telegra.ph/file/8fa91f9c7f6f4f6b8fa6c.jpg",
-    reply_markup=InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    "🔥 USERGE-X Repo", url="https://github.com/code-rgb/USERGE-X"
-                ),
-                InlineKeyboardButton(
-                    "🚀 Deploy USERGE-X",
-                    url=(
-                        "https://heroku.com/deploy?template="
-                        "https://github.com/code-pms/MyGpack"
-                    ),
-                ),
-            ]
-        ]
-    ),
+    title="Private Assistant",
+    input_message_content=InputTextMessageContent("**This is only for pOpzZ** "),
+    url="https://t.me/aj_popzz",
+    description="Owner",
+    thumb_url="https://telegra.ph/file/bb4b6acc40b877f0246dd.jpg"
 )
 
 
@@ -89,7 +73,7 @@ async def _init() -> None:
 
 
 @userge.on_cmd(
-    "help", about={"header": "Guide to use USERGE commands"}, allow_channels=False
+    "help", about={"header": "Plugins😬😬😬😬"}, allow_channels=True
 )
 async def helpme(message: Message) -> None:
     plugins = userge.manager.enabled_plugins
@@ -169,7 +153,7 @@ if userge.has_bot:
             else:
                 user_dict = await userge.bot.get_user_dict(Config.OWNER_ID[0])
                 await c_q.answer(
-                    f"Only {user_dict['flname']} Can Access this...! Build Your USERGE-X",
+                    f"Only for {user_dict['flname']} .🤭",
                     show_alert=True,
                 )
 
@@ -214,7 +198,7 @@ if userge.has_bot:
             await callback_query.answer("you are in main menu", show_alert=True)
             return
         if len(pos_list) == 2:
-            text = " 𝐒𝐇𝐀𝐑𝐈𝐍𝐆𝐀𝐍 MAIN MENU "
+            text = " MAIN MENU "
             buttons = main_menu_buttons()
         elif len(pos_list) == 3:
             text, buttons = category_data(cur_pos)
@@ -266,7 +250,7 @@ if userge.has_bot:
     @check_owner
     async def callback_mm(callback_query: CallbackQuery):
         await callback_query.edit_message_text(
-            " 𝐒𝐇𝐀𝐑𝐈𝐍𝐆𝐀𝐍 MAIN MENU ",
+            "lMAIN MENU ",
             reply_markup=InlineKeyboardMarkup(main_menu_buttons()),
         )
 
@@ -498,18 +482,18 @@ if userge.has_bot:
             and Config.SUDO_ENABLED
         ):
 
-            if string == "syntax":
+            if string == "popzz":
                 owner = [
                     [
                         InlineKeyboardButton(
-                            text="Contact", url="https://t.me/deleteduser420"
+                            text="🤣🤣😉😂🙄😊😒😢🤣😜😀", url="https://t.me/aj_popzz"
                         )
                     ]
                 ]
                 results.append(
                     InlineQueryResultPhoto(
-                        photo_url="https://coverfiles.alphacoders.com/123/123388.png",
-                        caption="Hey I solved **𝚂𝚢𝚗𝚝𝚊𝚡's ░ Σrr♢r**",
+                        photo_url="https://telegra.ph/file/bb4b6acc40b877f0246dd.jpg",
+                        caption="😌🤔🌴😂🥲😉🥲😉😉🙄🤨🕺**",
                         reply_markup=InlineKeyboardMarkup(owner),
                     )
                 )
@@ -690,7 +674,7 @@ if userge.has_bot:
                             else:
                                 results.append(
                                     InlineQueryResultCachedDocument(
-                                        title="USERGE-X",
+                                        title="pOpzZ",
                                         file_id=c_file_id,
                                         caption=alive_info,
                                         description="ALIVE",
@@ -769,7 +753,7 @@ if userge.has_bot:
             if len(string_split) == 2 and (string_split[0] == "ofox"):
                 codename = string_split[1]
                 t = TelegraphPoster(use_api=True)
-                t.create_api_token("Userge-X")
+                t.create_api_token("pOpzZ")
                 photo = "https://i.imgur.com/582uaSk.png"
                 api_host = "https://api.orangefox.download/v2/device/"
                 try:
@@ -866,13 +850,13 @@ if userge.has_bot:
                     if len(str_y) == 2:
                         link = f"https://t.me/{bot_name}?start=spoiler_{str_y[1]}"
                         buttons = [
-                            [InlineKeyboardButton(text="View Spoiler", url=link)]
+                            [InlineKeyboardButton(text="View", url=link)]
                         ]
                         results.append(
                             InlineQueryResultArticle(
                                 title="Spoiler",
                                 input_message_content=InputTextMessageContent(
-                                    "<b>Click To View The Spoiler !</b>"
+                                    "<b>Click To View !</b>"
                                 ),
                                 description="Click To Send",
                                 thumb_url="https://telegra.ph/file/ee3a6439494463acd1a3a.jpg",
@@ -901,7 +885,7 @@ if userge.has_bot:
                                     InlineQueryResultArticle(
                                         title=f"#{numm}  Spoiler",
                                         input_message_content=InputTextMessageContent(
-                                            "<b>Click To View The Spoiler !</b>"
+                                            "<b>Click To View!</b>"
                                         ),
                                         description=f"Created At: {savetime}",
                                         thumb_url="https://telegra.ph/file/ee3a6439494463acd1a3a.jpg",
@@ -1102,11 +1086,11 @@ if userge.has_bot:
                                 ],
                                 [
                                     InlineKeyboardButton(
-                                        text="📜  List all",
+                                        text="List all",
                                         callback_data=f"ytdl_listall_{key_}_1",
                                     ),
                                     InlineKeyboardButton(
-                                        text="⬇️  Download",
+                                        text="Download",
                                         callback_data=f'ytdl_download_{outdata[1]["video_id"]}_0',
                                     ),
                                 ],
@@ -1123,7 +1107,7 @@ if userge.has_bot:
                         InlineQueryResultPhoto(
                             photo_url=photo,
                             title=link,
-                            description="⬇️ Click to Download",
+                            description="Click to Download",
                             caption=caption,
                             reply_markup=buttons,
                         )
@@ -1141,10 +1125,10 @@ if userge.has_bot:
 
             MAIN_MENU = InlineQueryResultArticle(
                 title="Main Menu",
-                input_message_content=InputTextMessageContent(" 𝐒𝐇𝐀𝐑𝐈𝐍𝐆𝐀𝐍 MAIN MENU "),
-                url="https://github.com/code-rgb/USERGE-X",
-                description="Sharingan Main Menu",
-                thumb_url="https://telegra.ph/file/8fa91f9c7f6f4f6b8fa6c.jpg",
+                input_message_content=InputTextMessageContent(" MAIN MENU "),
+                url="https://t.me/aj_popzz",
+                description="Main Menu",
+                thumb_url="https://telegra.ph/file/bb4b6acc40b877f0246dd.jpg",
                 reply_markup=InlineKeyboardMarkup(main_menu_buttons()),
             )
             results.append(MAIN_MENU)
