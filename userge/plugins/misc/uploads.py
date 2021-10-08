@@ -29,7 +29,7 @@ LOGO_PATH = "resources/logo_x.png"
     "rename",
     about={
         "header": "Rename telegram files",
-        "flags": {"-d": "upload as document", "-wt": "without thumb"},
+        "flags": {"-d": "upload as document", "-wt": "without thumb", "-r": "remove file after upload"}, 
         "usage": "{tr}rename [flags] [new_name_with_extension] : reply to telegram media",
         "examples": "{tr}rename -d test.mp4",
     },
@@ -74,6 +74,7 @@ async def convert_(message: Message):
         "flags": {
             "-d": "upload as document",
             "-wt": "without thumb",
+            "-r": "remove file after upload"
         },
         "usage": "{tr}upload [flags] [file or folder path | link]",
         "examples": [
@@ -185,6 +186,8 @@ async def upload(
 ):
     if "wt" in message.flags:
         with_thumb = False
+    if 'r' in message.flags:
+        del_path = True
     if path.name.lower().endswith((".mkv", ".mp4", ".webm")) and (
         "d" not in message.flags
     ):
