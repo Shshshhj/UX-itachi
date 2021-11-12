@@ -1,6 +1,8 @@
 # tools for jutsu plugins by @Kakashi_HTK(tg)/@ashwinstr(gh)
 
-
+import asyncio
+from typing import Union
+from pyrogram.errors import UserNotParticipant
 from pyrogram.raw.functions.account import ReportPeer
 from pyrogram.raw.types import (
     InputPeerUserFromMessage,
@@ -142,9 +144,99 @@ def time_date_diff(year: int, month: int, date: int, hour: int, minute: int, dif
         return e
 
     
-async def admin_or_creator(chat_id: int, user_id: int) -> bool:
+async def admin_or_creator(chat_id: int, user_id: int) -> dict:
     check_status = await userge.get_chat_member(chat_id, user_id)
     admin_ = True if check_status.status == "administrator" else False
     creator_ = True if check_status.status == "creator" else False
     json_ = {"is_admin": admin_, "is_creator": creator_}
     return json_
+
+
+async def admin_chats(user_id: int) -> dict:
+    list_ = []
+    try:
+        user_ = await userge.get_users(user_id)
+    except:
+        raise
+        return
+    async for dialog in userge.iter_dialogs():
+        if dialog.chat.type in ["group", "supergroup", "channel"]:
+            try:
+                check = await admin_or_creator(dialog.chat.id, user_.id)
+                is_admin = check['is_admin']
+                is_creator = check['is_creator']
+            except UserNotParticipant:
+                is_admin = False
+                is_creator = False
+            chat_ = dialog.chat
+            if is_admin or is_creator:
+                list_.append(
+                    {
+                        "chat_name": chat_.title,
+                        "chat_id": chat_.id,
+                        "chat_username": chat_.username,
+                        "admin": is_admin,
+                        "creator": is_creator,
+                    }
+                )
+    return list_
+
+
+async def get_response(msg, filter_user: Union[int, str] = 0, timeout: int = 5, mark_read: bool = False):
+    await asyncio.sleep(timeout)
+    if filter_user:
+        try:
+            user_ = await userge.get_users(filter_user)
+        except:
+            raise "Invalid user."
+    for msg_ in range(1, 6):
+        msg_id = msg.message_id + msg_
+        try:
+            response = await userge.get_messages(msg.chat.id, msg_id)
+        except:
+            raise "No response found."
+        if response.reply_to_message.message_id == msg.message_id:
+            if filter_user:
+                if response.from_user.id == user_.id:
+                    if mark_read:
+                        await userge.send_read_acknowledge(msg.chat.id, response)
+                    return response
+            else:
+                if mark_read:
+                    await userge.send_read_acknowledge(msg.chat.id, response)
+                return response
+        
+    raise "No response found in time limit."
+
+
+#async def get_response(msg, filter_user: Union[int, str] = 0, timeout: int = 5, mark_read: bool = False):
+#    try:
+#       _response = await asyncio.wait_for(response(msg, filter_user, mark_read), timeout=timeout)
+#    except:
+#        raise
+#    return _response
+
+
+def full_name(user: dict):
+    try:
+        f_name = " ".join([user.first_name, user.last_name or ""])
+    except:
+        raise
+    return f_name
+
+
+def msg_type(message):
+    type_ = "text"
+    if message.audio:
+        type_ = "audio"
+    elif message.animation:
+        type_ = "gif"
+    elif message.document:
+        type_ = "file"
+    elif message.photo:
+        type_ = "photo"
+    elif message.sticker:
+        type_ = "sticker"
+    elif message.video:
+        type_ = "video"
+    return type_

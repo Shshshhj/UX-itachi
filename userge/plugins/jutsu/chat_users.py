@@ -1,6 +1,8 @@
-# created for USERGE-X by @Kakashi_HTK(tg)/@ashwinstr(github)
+# plugin made for USERGE-X by @Kakashi_HTK(TG)/@ashwinstr(GH)
+# before porting please ask to Kakashi
 
 from userge import Message, userge
+from userge.helpers import full_name
 
 
 @userge.on_cmd(
@@ -43,13 +45,13 @@ async def chat_users_(message: Message):
                     return
     title = (await userge.get_chat(chat_)).title
     await message.edit(f"Getting <b>{limit_}</b> members of chat <b>{title}</b>...")
-    list_ = f"List of <b>{limit_}</b> members in chat <b>{title}</b>:\n\n"
+    list_ = "List of <b>{}</b> members" + f"in chat <b>{title}</b>:\n\n"
     sr_n = 1
     lim = 0
     async for mem in userge.iter_chat_members(chat_):
         try:
-            await userge.get_users(mem.user.id)
-            user = " ".join([mem.user.first_name, mem.user.last_name or ""])
+            check = await userge.get_users(mem.user.id)
+            user = full_name(check)
         except BaseException:
             user = "<i>DELETED USER</i>"
         list_ += (
@@ -60,11 +62,11 @@ async def chat_users_(message: Message):
         sr_n += 1
         lim += 1
         if len(list_) > 4040:
-            await message.reply(list_)
+            await message.reply(list_.format(sr_n))
             list_ = ""
         if int(limit_) != 10000:
             if lim == limit_:
                 break
     if len(list_) != 0:
-        await message.reply(list_)
+        await message.reply(list_.format(sr_n - 1))
     await message.delete()
